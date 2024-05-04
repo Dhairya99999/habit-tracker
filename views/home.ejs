@@ -1,0 +1,114 @@
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h1 class="mt-5 ">Habits to Track</h1>
+            </div></div></div>
+
+<div class="row justify-content-center mt-3 mb-5">
+    <% habit.forEach(habits=> {
+        let timezoneOffSet = (new Date()).getTimezoneOffset() * 60000, found=false, status='';
+        var today = (new Date(Date.now() - timezoneOffSet)).toISOString().slice(0, 10);
+        habits.dates.find(function (item, index) {
+        if(item.date === today){
+        found = true;
+        status = item.complete;
+        }
+        });
+        %>
+        <div class="col-md-8 ">
+            <div class='shadow-sm rounded  mt-3 p-4 bg-white '>
+                <div>
+                    <span class="card-header mt-2 rounded">
+                        <%= habits.content %>
+                    </span>
+                
+                </div>
+
+                <!-- Delete Habit -->
+                <div class='float-end shadow-sm me-2 justify-content-center' style="
+                margin-top: -30px;
+            ">
+                    <a href="/<%= habits._id %>" class=' btn' id="button"><i
+                            class="bi bi-archive-fill icon"></i>
+                    </a>
+                </div>
+                <div class="col-md-10 justify-content-center habit-days mt-3 "
+                style="margin-left: auto; margin-right: auto; width: 100%; padding-top: 30px;">
+                    <% days.forEach(day=> { let found = false, status = '';
+                        habits.dates.find(function (item, index) {
+                        if(item.date === day.date)
+                        {
+                        found = true;
+                        status = item.complete;
+                        }
+                        });
+                        %>
+
+                        <div>
+
+                            <table class="table table-bordered" >
+
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="circular-progress">
+
+                                                <div class="value-container">
+                                                    <%= day.day %> <br>
+                                                        <span>
+                                                            <%= day.date.slice(-2) %>
+                                                        </span>
+                                                </div>
+
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td class="pb-3" style="text-align: center;">
+                                                <a
+                                                    href="habitStatus/?id=<%= habits._id %>&date=<%= day.date %>">
+                                                    <% if(found && status==='yes' ){ %>
+                                                        <abbr
+                                                title="Mark the habit as pending">
+                                                <i class="fa-solid fa-circle-check fa-2x"
+                                                            style="color: green;"></i>
+                                                        </abbr>
+                                                        <% } else if(found && status==='no' ){ %>
+                                                            
+                                                        <abbr
+                                                        title="click to remove the mark"><i class="fa-sharp fa-solid fa-circle-xmark fa-2x"
+                                                                style="color: red;"></i></abbr>
+                                                            <% } else { %>
+
+                                                        <abbr
+                                                        title="Mark the habit as completed!">
+                                                                <i class="fa-solid fa-circle-minus fa-2x"></i>
+                                                                <% } %>
+                                                </a>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        <% }) %>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+</div>
+<!-- FontAwesome Icon Script -->
+<script src="https://kit.fontawesome.com/d5635d350d.js" crossorigin="anonymous"></script>
+<!-- Bootstrap Scripts -->
+<script>
+$('[data-toggle="tooltip"]').tooltip({ 'placement': 'bottom' });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+crossorigin="anonymous"></script>
+
